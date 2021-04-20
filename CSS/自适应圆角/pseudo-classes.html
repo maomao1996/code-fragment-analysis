@@ -1,129 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>自适应圆角 - 伪类选择器方案</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      background-color:#ddd
-    }
-    .module {
-      margin: 10px;
-    }
-    .content {
-      display: flex;
-      flex-wrap: wrap;
-      border-radius: 8px;
-      padding: 8px;
-      background-color:#fff;
-    }
-    .item {
-      /* 设置 flex-grow 为 1 撑满剩余空间 */
-      flex-grow: 1;
-      /* 设置最小宽为 30% 保证每行只有三个 */
-      min-width: 30%;
-      height: 40px;
-      background-color: #95b8d1;
-    }
-    /* 第一个一定有 border-top-left-radius */
-    .item:first-child {
-      border-top-left-radius: 8px;
-    }
-    /* 第二个开始都有 margin-left 同时每行第一个没有 margin-left */
-    .item + .item:not(:nth-child(3n + 1)) {
-      margin-left: 8px;
-    }
-    /* 第三个一定有 border-top-right-radius */
-    .item:nth-of-type(3) {
-      border-top-right-radius: 8px;
-    }
-    /* 第三个之后的都有 margin-top */
-    .item:nth-of-type(3) ~ .item {
-      margin-top: 8px;
-    }
-    /* 最后一个一定有 border-bottom-right-radius */
-    .item:last-child {
-      border-bottom-right-radius: 8px;
-    }
-    /* 最后一行第一个一定有 border-bottom-left-radius */
-    .item:nth-child(3n + 1):nth-last-child(3) {
-      border-bottom-left-radius: 8px;
-    }
-    /* 只有一个 */
-    .item:only-child {
-      border-top-right-radius: 8px;
-    }
-    /* 只有两个时 */
-    .item:last-child:nth-child(2) {
-      border-top-right-radius: 8px;
-    }
-    /* 最后一行只有一个时 */
-    .item:last-child:nth-child(3n + 1) {
-      border-bottom-left-radius: 8px;
-    }
-    /* 最后一行有两个时 */
-    .item:nth-child(3n + 1):nth-last-child(2) {
-      border-bottom-left-radius: 8px;
-    }
-  </style>
-</head>
-<body>
-  <h1>伪类选择器方案(不够灵活，但是可以练习 CSS 伪类选择器)</h1>
-  <div class="module">
-    <div class="content">
-      <div class="item"></div>
-    </div>
-  </div>
-  <div class="module">
-    <div class="content">
-      <div class="item"></div>
-      <div class="item"></div>
-    </div>
-  </div>
-  <div class="module">
-    <div class="content">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-    </div>
-  </div>
-  <div class="module">
-    <div class="content">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-    </div>
-  </div>
-  <div id="app" class="module">
-    <button @click="add">add</button>
-    <button @click="remove">remove</button>
-    <div class="content">
-      <div v-for="item in item" :key="item" class="item"></div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
-  <script>
-    new Vue({
-      el: '#app',
-      data: {
-        item: [1, 2, 3, 4, 5]
-      },
-      methods: {
-        add() {
-          this.item.push(this.item.length + 1)
-        },
-        remove() {
-          this.item.pop()
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自适应圆角 - 伪类选择器方案</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
       }
-    })
-  </script>
-</body>
+      body {
+        background-color: #ddd;
+      }
+      .module {
+        margin: 10px;
+      }
+      .content {
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 8px;
+        padding: 8px;
+        background-color: #fff;
+      }
+      .item {
+        /* 设置 flex-grow 为 1 撑满剩余空间 */
+        flex-grow: 1;
+        /* 设置最小宽为 30% 保证每行只有三个 */
+        min-width: 30%;
+        height: 40px;
+        background-color: #95b8d1;
+      }
+      /* 第一个一定有 border-top-left-radius */
+      .item:first-child {
+        border-top-left-radius: 8px;
+      }
+      /* 第二个开始都有 margin-left 同时每行第一个没有 margin-left */
+      .item + .item:not(:nth-child(3n + 1)) {
+        margin-left: 8px;
+      }
+      /* 第三个一定有 border-top-right-radius */
+      .item:nth-of-type(3) {
+        border-top-right-radius: 8px;
+      }
+      /* 第三个之后的都有 margin-top */
+      .item:nth-of-type(3) ~ .item {
+        margin-top: 8px;
+      }
+      /* 最后一个一定有 border-bottom-right-radius */
+      .item:last-child {
+        border-bottom-right-radius: 8px;
+      }
+      /* 最后一行第一个一定有 border-bottom-left-radius */
+      .item:nth-child(3n + 1):nth-last-child(3) {
+        border-bottom-left-radius: 8px;
+      }
+      /* 只有一个 */
+      .item:only-child {
+        border-top-right-radius: 8px;
+      }
+      /* 只有两个时 */
+      .item:last-child:nth-child(2) {
+        border-top-right-radius: 8px;
+      }
+      /* 最后一行只有一个时 */
+      .item:last-child:nth-child(3n + 1) {
+        border-bottom-left-radius: 8px;
+      }
+      /* 最后一行有两个时 */
+      .item:nth-child(3n + 1):nth-last-child(2) {
+        border-bottom-left-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类选择器方案(不够灵活，但是可以练习 CSS 伪类选择器)</h1>
+    <div class="module">
+      <div class="content">
+        <div class="item"></div>
+      </div>
+    </div>
+    <div class="module">
+      <div class="content">
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
+    <div class="module">
+      <div class="content">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
+    <div class="module">
+      <div class="content">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
+    <div id="app" class="module">
+      <button @click="add">add</button>
+      <button @click="remove">remove</button>
+      <div class="content">
+        <div v-for="item in item" :key="item" class="item"></div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          item: [1, 2, 3, 4, 5]
+        },
+        methods: {
+          add() {
+            this.item.push(this.item.length + 1)
+          },
+          remove() {
+            this.item.pop()
+          }
+        }
+      })
+    </script>
+  </body>
 </html>
