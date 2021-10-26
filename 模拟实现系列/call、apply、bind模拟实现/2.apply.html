@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apply 模拟实现</title>
+  </head>
+  <body>
+    <script>
+      // apply() 方法使用一个指定的 this 值和单独给出的一个数组（或类数组对象）的形式提供的参数来调用一个函数
+      // 调用形式为 方法名.apply(传入的 this, [参数 1, 参数 2, 参数 3])
+
+      // MDN: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
+      // 相关学习文章: https://github.com/mqyqingfeng/Blog/issues/11
+
+      /** 普通版 **/
+      Function.prototype.myApply = function (context, arr) {
+        // 在非严格模式下，传入的 context 为 null 或 undefined 时会自动替换为全局对象
+        // 因此在判断时不能使用 context = context || window
+        if (context == null) {
+          context = window
+        }
+        // 原始值需要被 Object 包装成对象
+        else {
+          context = Object(context)
+        }
+
+        // 获取调用 apply 的函数
+        context.fn = this
+
+        // 获取 fn 函数调用的返回值
+        var result
+        if (arr) {
+          // 获取传入的参数
+          var args = []
+          for (var i = 0, len = arr.length; i < len; i++) {
+            args.push('arr[' + i + ']')
+          }
+
+          result = eval('context.fn(' + args + ')')
+        }
+        // 没有参数直接调用
+        else {
+          result = context.fn()
+        }
+
+        // 删除 fn 函数
+        delete context.fn
+
+        // 将 fn 的返回值返回
+        return result
+      }
+
+      /** ES6 版本 **/
+      Function.prototype.myApplyES6 = function (context, arr) {
+        if (context == null) {
+          context = window
+        } else {
+          context = Object(context)
+        }
+
+        context.fn = this
+
+        // 获取函数调用的返回值
+        const result = arr ? context.fn(...arr) : context.fn()
+
+        delete context.fn
+
+        return result
+      }
+
+      function get(name, age) {
+        console.log(this)
+        console.log(this.name)
+        console.log(arguments)
+
+        return '这是返回值'
+      }
+
+      const obj = {
+        name: 'maomao',
+        age: 18
+      }
+
+      console.log(`myApply :>> `, get.myApply(obj, ['myApply', 20]))
+      console.log(`myApplyES6 :>> `, get.myApplyES6(obj, ['myApplyES6', 20]))
+      console.log(`apply :>> `, get.apply(obj, ['apply', 20]))
+    </script>
+  </body>
+</html>
