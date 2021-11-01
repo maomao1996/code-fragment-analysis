@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>解析目录树</title>
+  </head>
+  <body>
+    <script>
+      const text = `
+- 章节一
+  - 一级标题一
+  - 一级标题二
+    - 二级标题一
+      - 三级标题一
+      - 三级标题二
+        - 四级标题一
+        - 四级标题二
+          - 五级标题一
+          - 五级标题二
+      - 三级标题三
+  - 一级标题三
+- 章节二
+  - 一级标题一
+  - 一级标题二
+`
+      class Node {
+        constructor({ value, level }) {
+          this.value = value
+          this.level = level
+          this.children = []
+        }
+      }
+
+      function parseTree(text) {
+        // 将字符串转化为数组，同时过滤 ''
+        const arr = text.split('\n').filter(Boolean)
+
+        const result = []
+        let queue = []
+        let parent
+        let prevNode
+
+        arr.forEach((item) => {
+          // 获取目录名
+          const [levelStr, name] = item.split('- ')
+          // 获取 level
+          const level = levelStr.length / 2 + 1
+          // 组装 node 数据
+          const node = new Node({ value: name, level })
+
+          // 当 item[0] === '-' 时为一级目录
+          if (item[0] === '-') {
+            result.push(node)
+            prevNode = parent = node
+            queue = [node]
+          }
+          // 非一级目录
+          else {
+            // 当前 node 是前一个 node 子级
+            if (level > prevNode.level) {
+              prevNode.children.push(node)
+              parent = prevNode
+              queue[level - 1] = prevNode = node
+            }
+            // 当前 node 是前一个 node 的兄弟节点
+            else if (level === prevNode.level) {
+              parent.children.push(node)
+              queue[level - 1] = prevNode = node
+            }
+            // 当前 node 与前一个 node 无关时，先通过 level - 2 获取 parent 再更新节点信息
+            else {
+              prevNode = node
+              parent = queue[level - 2]
+              parent.children.push(node)
+            }
+          }
+        })
+
+        return result
+      }
+
+      console.log(JSON.stringify(parseTree(text), null, '  '))
+    </script>
+  </body>
+</html>
