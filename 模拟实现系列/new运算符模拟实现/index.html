@@ -13,7 +13,7 @@
        * 1. 创建一个全新的对象
        * 2. 为新创建的对象添加属性 __proto__ 并指向构造函数的原型对象
        * 3. 将新创建的对象作为函数调用的 this
-       * 4. 如果构造函数没有返回对象类型，则新创建的对象
+       * 4. 如果构造函数没有返回对象或者函数类型，则新创建的对象
        **/
 
       // MDN: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new
@@ -29,8 +29,9 @@
         // 绑定 this 并执行构造函数
         const result = Constructor.apply(obj, arguments)
 
-        // 返回构造函数显示返回的值或新对象
-        return result && typeof result === 'object' ? result : instance
+        // 判断构造函数返回值，如果是对象和函数直接返回返回值，否则返回新创建的对象
+        const type = typeof result
+        return result && (type === 'object' || type === 'function') ? result : obj
       }
 
       function Person(name) {
