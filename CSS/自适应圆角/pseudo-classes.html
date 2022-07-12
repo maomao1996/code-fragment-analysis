@@ -11,6 +11,9 @@
         padding: 0;
       }
       body {
+        --border-radius: 8px;
+        --gutter: 8px;
+
         background-color: #ddd;
       }
       .module {
@@ -19,8 +22,8 @@
       .content {
         display: flex;
         flex-wrap: wrap;
-        border-radius: 8px;
-        padding: 8px;
+        border-radius: var(--border-radius);
+        padding: var(--gutter);
         background-color: #fff;
       }
       .item {
@@ -33,43 +36,43 @@
       }
       /* 第一个一定有 border-top-left-radius */
       .item:first-child {
-        border-top-left-radius: 8px;
+        border-top-left-radius: var(--border-radius);
       }
       /* 第二个开始都有 margin-left 同时每行第一个没有 margin-left */
       .item + .item:not(:nth-child(3n + 1)) {
-        margin-left: 8px;
+        margin-left: var(--gutter);
       }
       /* 第三个一定有 border-top-right-radius */
       .item:nth-of-type(3) {
-        border-top-right-radius: 8px;
+        border-top-right-radius: var(--border-radius);
       }
       /* 第三个之后的都有 margin-top */
       .item:nth-of-type(3) ~ .item {
-        margin-top: 8px;
+        margin-top: var(--gutter);
       }
       /* 最后一个一定有 border-bottom-right-radius */
       .item:last-child {
-        border-bottom-right-radius: 8px;
+        border-bottom-right-radius: var(--border-radius);
       }
       /* 最后一行第一个一定有 border-bottom-left-radius */
       .item:nth-child(3n + 1):nth-last-child(3) {
-        border-bottom-left-radius: 8px;
+        border-bottom-left-radius: var(--border-radius);
       }
       /* 只有一个 */
       .item:only-child {
-        border-top-right-radius: 8px;
+        border-top-right-radius: var(--border-radius);
       }
       /* 只有两个时 */
       .item:last-child:nth-child(2) {
-        border-top-right-radius: 8px;
+        border-top-right-radius: var(--border-radius);
       }
       /* 最后一行只有一个时 */
       .item:last-child:nth-child(3n + 1) {
-        border-bottom-left-radius: 8px;
+        border-bottom-left-radius: var(--border-radius);
       }
       /* 最后一行有两个时 */
       .item:nth-child(3n + 1):nth-last-child(2) {
-        border-bottom-left-radius: 8px;
+        border-bottom-left-radius: var(--border-radius);
       }
     </style>
   </head>

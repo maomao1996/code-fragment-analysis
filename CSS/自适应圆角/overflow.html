@@ -11,6 +11,9 @@
         padding: 0;
       }
       body {
+        --border-radius: 8px;
+        --gutter: 8px;
+
         background-color: #ddd;
       }
       .module {
@@ -24,8 +27,8 @@
         display: flex;
         flex-wrap: wrap;
         overflow: hidden;
-        border-radius: 8px;
-        margin: 8px;
+        border-radius: var(--border-radius);
+        margin: var(--gutter);
         background-color: #fff;
       }
       .item {
@@ -39,11 +42,11 @@
 
       /* 第二个开始都有 margin-left 同时每行第一个没有 margin-left */
       .item + .item:not(:nth-child(3n + 1)) {
-        margin-left: 8px;
+        margin-left: var(--gutter);
       }
       /* 第三个之后的都有 margin-top */
       .item:nth-of-type(3) ~ .item {
-        margin-top: 8px;
+        margin-top: var(--gutter);
       }
     </style>
   </head>
