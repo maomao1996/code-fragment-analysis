@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>微信群头像布局</title>
+    <style>
+      body {
+        --border-width: 3px;
+      }
+      .img {
+        outline: var(--border-width) solid #ddd;
+        outline-offset: -3px;
+        flex: none;
+        width: 50%;
+        object-fit: contain;
+      }
+      /* 只有一个时 */
+      .img:only-child {
+        width: 100%;
+      }
+      .img:first-child:nth-last-child(n + 5),
+      .img:first-child:nth-last-child(n + 5) ~ .img {
+        width: calc(100% / 3);
+      }
+      .avatar {
+        overflow: hidden;
+        display: flex;
+        /* 水平反向排列 —— 新元素在前面 */
+        flex-direction: row-reverse;
+        /* 允许换行并反向排列行的位置 —— 新行在上面 */
+        flex-wrap: wrap-reverse;
+        align-content: center;
+        justify-content: center;
+        width: 300px;
+        height: 300px;
+        border: var(--border-width) solid #ddd;
+        background: #ddd;
+        border-radius: var(--border-width);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="avatar" class="avatar">
+      <img class="img" src="./avatar/1.jpg" style="order: 9" />
+    </div>
+
+    <p>
+      <button id="button">添加</button>
+    </p>
+
+    <script>
+      button.onclick = function () {
+        if (avatar.children.length < 9) {
+          avatar.insertAdjacentHTML(
+            'beforeend',
+            /**
+             * 设置 order 属性
+             * 默认情况下 order 属性是从小到大排列，即值小的排在前面
+             * 因反转了 flex 容器的排列，所以我们要让 order 属性的值从大到小递减
+             * 从而保证头像按数据顺序展示
+             */
+            `<img class="img" src="./avatar/${avatar.children.length + 1}.jpg" style="order: ${
+              9 - avatar.children.length
+            }" />`
+          )
+        }
+      }
+    </script>
+  </body>
+</html>
