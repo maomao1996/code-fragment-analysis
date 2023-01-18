@@ -47,7 +47,10 @@
         border-top-right-radius: var(--border-radius);
       }
       /* 第三个之后的都有 margin-top */
-      .item:nth-of-type(3) ~ .item {
+      /* 方案一：伪类选择器 + 随后兄弟选择器 */
+      /* .item:nth-of-type(3) ~ .item */
+      /* 方案二：伪类选择器 */
+      .item:nth-of-type(n + 4) {
         margin-top: var(--gutter);
       }
       /* 最后一个一定有 border-bottom-right-radius */
