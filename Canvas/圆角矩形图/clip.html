@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas 绘制带圆角的矩形图 — clip</title>
+  </head>
+  <body>
+    <div>
+      <img
+        id="img"
+        src="https://mms1.baidu.com/it/u=181635795,1817021705&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=284"
+        alt=""
+      />
+    </div>
+    <canvas id="canvas" width="500" height="284"></canvas>
+    <script>
+      // 绘制圆角矩形（使用 arcTo）
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        // 保存当前环境的状态
+        ctx.save()
+        // 重置当前路径
+        ctx.beginPath()
+
+        // 移动到左上角
+        ctx.moveTo(x + radius, y)
+        // 绘制右上角
+        ctx.arcTo(x + width, y, x + width, y + radius, radius)
+        // 绘制右下角
+        ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius)
+        // 绘制左下角
+        ctx.arcTo(x, height, x, height - radius, radius)
+        // 绘制左上角
+        ctx.arcTo(x, y, x + radius, y, radius)
+
+        // 填充当前路径
+        ctx.fill()
+      }
+
+      const img = document.getElementById('img')
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+      window.onload = function () {
+        const x = 0
+        const y = 0
+        const width = canvas.width
+        const height = canvas.height
+
+        let radius = 50
+
+        // 处理圆角边界值
+        radius = Math.min(radius, Math.min(width, height) / 2)
+
+        // 绘制圆角矩形
+        drawRoundedRect(ctx, x, y, width, height, radius)
+
+        // 对矩形进行剪切
+        ctx.clip()
+        // 绘制图片
+        ctx.drawImage(img, x, y, width, height)
+      }
+    </script>
+  </body>
+</html>
