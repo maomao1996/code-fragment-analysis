@@ -4,6 +4,7 @@
   "private": true,
   "description": "各种代码片段分析，慢慢来...",
   "scripts": {
+    "only-allow": "node npm/only-allow/index.js pnpm",
     "test": "jest"
   },
   "repository": {
@@ -20,6 +21,8 @@
     "@babel/preset-env": "^7.15.8",
     "@types/jest": "^27.0.2",
     "babel-jest": "^27.3.1",
-    "jest": "^27.3.1"
+    "boxen": "^5.1.2",
+    "jest": "^27.3.1",
+    "which-pm-runs": "^1.1.0"
   }
 }
