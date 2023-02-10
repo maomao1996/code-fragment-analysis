@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+
+/**
+ * 当前源码版本为 v1.1.1
+ */
+
 // 用于获取当前所使用的包管理器名称和版本
 const whichPMRuns = require('which-pm-runs')
 // 终端输出美化：在终端中生成一个方框图案
