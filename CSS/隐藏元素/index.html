@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>不使用 JavaScript 来隐藏元素的若干方法</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #app {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        font-size: 16px;
+        background-color: #c3d899;
+      }
+      .controller {
+        margin-right: 100px;
+      }
+      .box-wrap {
+        width: 400px;
+      }
+      .box {
+        display: inline-block;
+        visibility: visible;
+        left: 0;
+        width: 200px;
+        height: 200px;
+        background-color: #95b8d1;
+        transition: all 0.5s;
+        clip-path: circle(100%);
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="controller">
+        <div v-for="(item, index) in styles" :key="item.label">
+          <label :for="item.label">
+            <input
+              :id="item.label"
+              type="radio"
+              name="hidden"
+              :value="item.value"
+              @change="change"
+            />
+            {{index}} {{item.label}}
+          </label>
+        </div>
+      </div>
+      <div class="box-wrap">
+        <div class="box" tabindex="0" :style="activeStyle" @click="click">点击触发事件 {{now}}</div>
+        <span>测试是否占据空间</span>
+        <div>测试是否占据空间</div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          styles: [
+            {
+              label: '关闭',
+              value: ''
+            },
+            {
+              label: 'width + overflow',
+              value: 'width: 0; overflow: hidden'
+            },
+            {
+              label: 'height + overflow',
+              value: 'height: 0; overflow: hidden'
+            },
+            {
+              label: 'display: none',
+              value: 'display: none'
+            },
+            {
+              label: 'visibility: hidden',
+              value: 'visibility: hidden'
+            },
+            {
+              label: 'relative + z-index',
+              value: 'position: relative; z-index: -999'
+            },
+            {
+              label: 'absolute + left',
+              value: 'position: absolute; left: -100vw'
+            },
+            {
+              label: 'color: transparent; background: transparent',
+              value: 'color: transparent; background: transparent'
+            },
+            {
+              label: 'clip-path: circle(0%)',
+              value: 'clip-path: circle(0%)'
+            },
+            {
+              label: 'transform: scale(0)',
+              value: 'transform: scale(0)'
+            },
+            {
+              label: 'transform: rotateY(90deg)',
+              value: 'transform: rotateY(90deg)'
+            },
+            {
+              label: 'transform: skew(90deg)',
+              value: 'transform: skew(90deg)'
+            },
+            {
+              label: 'opacity: 0',
+              value: 'opacity: 0'
+            },
+            {
+              label: 'filter: opacity(0)',
+              value: 'filter: opacity(0)'
+            }
+          ],
+          activeStyle: '',
+          now: ''
+        },
+        methods: {
+          change(e) {
+            this.activeStyle = 'transition: all 0s'
+            setTimeout(() => {
+              this.activeStyle = e.target.value
+            }, 200)
+          },
+          click() {
+            this.now = Date.now()
+            console.log('响应事件', Date.now())
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
